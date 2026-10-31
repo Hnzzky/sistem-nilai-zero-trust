@@ -4,10 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "seed": "node database/seed.js",
+  "seed": "node database/seed.js",
+  "db:cek": "node database/cek.js",
+  "db:audit": "node database/audit.js",
+  "seed": "node database/seed.js",
   "db:cek": "node database/cek.js",
   "db:audit": "node database/audit.js",
   "test:policy": "node gateway/uji-policy.js",
+  "test:e2e": "node tests/uji-e2e.js",
+  "postman:buat": "node tests/buat-postman.js",
   "start:gateway": "node gateway/server.js",
   "start:nilai": "node service-nilai/server.js",
   "start:transkrip": "node service-transkrip/server.js"

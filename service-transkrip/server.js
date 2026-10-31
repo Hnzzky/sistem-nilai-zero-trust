@@ -1,17 +1,21 @@
 const express = require('express');
 const config = require('../shared/config');
+const { wajibGatewaySecret } = require('../shared/gatewaySecret');
 const { wajibToken } = require('../shared/authMiddleware');
 const transkripRoutes = require('./routes/transkrip');
 
 const app = express();
+
+// Lapisan 1: tanpa X-Gateway-Secret yang benar, TIDAK ADA rute yang menjawab
+app.use(wajibGatewaySecret('SERVICE TRANSKRIP'));
+
 app.use(express.json());
 
-// SEMENTARA: akan diproteksi gateway secret di Tahap 9.
 app.get('/health', (req, res) => {
   res.json({ service: 'service-transkrip', status: 'ok', port: config.ports.transkrip });
 });
 
-// Semua rute data wajib membawa JWT valid
+// Lapisan 2: JWT harus valid (tanda tangan dan masa berlaku)
 app.use('/transkrip', wajibToken, transkripRoutes);
 
 app.use((req, res) => {

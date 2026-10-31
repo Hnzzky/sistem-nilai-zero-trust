@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "seed": "node database/seed.js",
-     "start:gateway": "node gateway/server.js",
-     "start:nilai": "node service-nilai/server.js",
-     "start:transkrip": "node service-transkrip/server.js"
+  "db:cek": "node database/cek.js",
+  "start:gateway": "node gateway/server.js",
+  "start:nilai": "node service-nilai/server.js",
+  "start:transkrip": "node service-transkrip/server.js"
   },
   "keywords": [],
   "author": "",

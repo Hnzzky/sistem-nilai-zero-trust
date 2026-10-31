@@ -3,7 +3,7 @@ const tokens = require('../../shared/tokens');
 const policy = require('../policy');
 const { catat } = require('../auditLog');
 
-const cariUser = db.prepare('SELECT id, username, role FROM users WHERE id = ?');
+const cariUser = db.prepare('SELECT id, username, role, nim FROM users WHERE id = ?');
 const cekDevice = db.prepare('SELECT 1 FROM devices WHERE user_id = ? AND device_id = ?');
 
 // Mencatat DENY ke audit log lalu membalas client
@@ -72,13 +72,18 @@ function enforce(req, res, next) {
       return tolak(req, res, { status: 403, subjek: label, role: user.role, deviceId, alasan: 'device tidak terdaftar untuk user ini' });
     }
 
-    subject = { tipe: 'user', id: user.id, username: user.username, role: user.role, label };
+    subject = { tipe: 'user', id: user.id, username: user.username, role: user.role, nim: user.nim, label };
   } else {
     return tolak(req, res, { status: 401, subjek: 'anonim', deviceId, alasan: 'tipe token tidak dikenal' });
   }
 
   // --- Langkah 4: minta keputusan ke Policy Engine ---
-  const keputusan = policy.evaluate({ subject, method: req.method, path: req.path });
+  const keputusan = policy.evaluate({
+    subject,
+    method: req.method,
+    path: req.path,
+    query: req.query,
+  });
 
   if (!keputusan.allow) {
     return tolak(req, res, {

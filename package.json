@@ -7,6 +7,7 @@
     "seed": "node database/seed.js",
   "db:cek": "node database/cek.js",
   "db:audit": "node database/audit.js",
+  "test:policy": "node gateway/uji-policy.js",
   "start:gateway": "node gateway/server.js",
   "start:nilai": "node service-nilai/server.js",
   "start:transkrip": "node service-transkrip/server.js"
